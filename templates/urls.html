@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block navigation %}
+<ul class="nav navbar-nav">
+<li><a href="/">Общая статистика</a></li>
+<li class="active"><a href="/urls">Url адреса</a></li>
+<li><a href="/urls">Дублирование</a></li>
+<li><a href="/urls">Новый контент</a></li>
+</ul>
+{% endblock %}
+
+{% block head %}
+    <h2 class="page-header">Список адресов {% if key %}где отличается {{ key }} {% endif %}:</h2>
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <ol>
+            {% for page in pages %}
+            <li> <a href="urls/{{ page._id }}">[ {{ page.status_code }} ] {{ page.url }}</a> </li>
+            {% endfor %}
+        </ol>
+    </div>
+
+{% endblock %}

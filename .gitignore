@@ -1,0 +1,8 @@
+env/*
+settings.py
+*.log
+*.pid
+*.ini
+*.pyc
+export*
+uwsgi*

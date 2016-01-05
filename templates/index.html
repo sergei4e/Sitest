@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block navigation %}
+<ul class="nav navbar-nav">
+<li class="active"><a href="/">Общая статистика</a></li>
+<li><a href="/urls">Url адреса</a></li>
+<li><a href="/urls">Дублирование</a></li>
+<li><a href="/urls">Новый контент</a></li>
+</ul>
+{% endblock %}
+
+{% block head %}
+    <h1 class="page-header">Общая статистика</h1>
+{% endblock %}
+
+{% block content %}
+
+    <div class="row show-grid">
+        <div class="col-xs-3">
+            <form method="post">
+            <label for="col1">Первая проверка</label>
+                <select class="form-control" name="col1" id="col1">
+                    {% for col in cols %}
+                        {% if context1.col1 == col %}
+                            <option selected value='{{ col }}'>{{ col }}</option>
+                        {% else %}
+                            <option value='{{ col }}'>{{ col }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            <br />
+            <label for="col2">Вторая проверка</label>
+                <select class="form-control" name="col2" id="col2">
+                    {% for col in cols %}
+                        {% if context2.col2 == col %}
+                            <option selected value='{{ col }}'>{{ col }}</option>
+                        {% else %}
+                            <option value='{{ col }}'>{{ col }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            <br />
+            <button type="submit" class="btn btn-default">Получить данные</button>
+        </form>
+        </div>
+    </div>
+
+    <div class="row show-grid">
+        <div class="col-xs-6"><h4>Проверка за {{context1.col1}}</h4></div>
+        <div class="col-xs-6"><h4>Проверка за {{context2.col2}}</h4></div>
+    </div>
+
+    <div class="row show-grid">
+        <div class="col-xs-6"><b>Страницы 404</b></div>
+        <div class="col-xs-6"><b>Страницы 404</b></div>
+        <div class="col-xs-6">{{context1.errors|safe}}</div>
+        <div class="col-xs-6">{{context2.errors|safe}}</div>
+    </div>
+
+    <div class="row show-grid">
+        <div class="col-xs-6"><b>Закрыто в robots.txt</b></div>
+        <div class="col-xs-6"><b>Закрыто в robots.txt</b></div>
+        <div class="col-xs-6">{{context1.disalloved|safe}}</div>
+        <div class="col-xs-6">{{context2.disalloved|safe}}</div>
+    </div>
+
+    <div class="row show-grid">
+        <div class="col-xs-6"><b>Meta: noindex, nofollow</b></div>
+        <div class="col-xs-6"><b>Meta: noindex, nofollow</b></div>
+        <div class="col-xs-6">{{context1.noindex|safe}}</div>
+        <div class="col-xs-6">{{context2.noindex|safe}}</div>
+    </div>
+
+    <div class="row show-grid">
+        <div class="col-xs-6"><b>301-х редиректов</b></div>
+        <div class="col-xs-6"><b>301-х редиректов</b></div>
+        <div class="col-xs-6">{{context1.redirects|safe}}</div>
+        <div class="col-xs-6">{{context2.redirects|safe}}</div>
+    </div>
+
+    <div class="row show-grid">
+        <div class="col-xs-12"><h4>Изменения в блоках</h4></div>
+        {% for key in context %}
+        <div class="col-xs-3"><a href="/urls?f={{key}}">{{key}} : {{context[key]|safe}}</a></div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

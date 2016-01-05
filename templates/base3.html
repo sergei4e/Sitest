@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Dashboard Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static', filename = 'css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('static', filename = 'css/dashboard.css') }}" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="{{ url_for('static', filename = 'js/ie8-responsive-file-warning.js') }}"></script><![endif]-->
+    <script src="{{ url_for('static', filename = 'js/ie-emulation-modes-warning.js') }}"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Allbiz SEO testing tool</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+              {% block navigation %}
+            <li class="active"><a href="/">Overview <span class="sr-only">(current)</span></a></li>
+            <li><a href="/urls">Urls</a></li>
+            <li><a href="#">Duplicates</a></li>
+              {% endblock %}
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            {% block h1 %}
+            <h1 class="page-header">Code Difference</h1>
+            {% endblock %}
+
+          {% block content %}
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Before</th>
+                  <th>After</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="col-md-6"><xmp>
+<a href="http://khmelnitsky.all.biz/sporyadzhennya-i-
+furnitura-dlya-saloniv-bgc4377" title=" &#1057;&#1087;&#1086;
+&#1088;&#1103;&#1076;&#1078;&#1077;&#1085;&#1085;&#1103;
+&#1110;&#1092;&#1091;&#1088;&#1085;&#1110;&#1090;&#1091;
+&#1088;&#1072; &#1076;&#1083;&#1103; &#1089;&#1072;&#1083;
+&#1086;&#1085;&#1110;&#1074; &#1072;&#1074;&#1090;&#1086;
+&#1084;&#1086;&#1073;&#1110;&#1083;&#1110;&#1074; &#1074;
+&#1061;&#1084;&#1077;&#1083;&#1100;&#1085;&#1080;&#1094;
+&#1100;&#1082;&#1080;&#1081; ">&#1057;&#1087;&#1086;&#1088;
+&#1103;&#1076;&#1078;&#1077;&#1085;&#1085;&#1103; &#1110;
+&#1092;&#1091;&#1088;&#1085;&#1110;&#1090;&#1091;&#1088;
+&#1072; &#1076;&#1083;&#1103;&#1089;&#1072;&#1083;&#1086;
+&#1085;&#1110;&#1074; &#1072;&#1074;&#1090;&#1086;&#1084;
+&#1086;&#1073;&#1110;&#1083;&#1110;&#1074; &#1074; &#1061;
+&#1084;&#1077;&#1083;&#1100;&#1085;&#1080;&#1094;&#1100;
+&#1082;&#1080;&#1081;</a><span>6</span>
+                      </xmp></td>
+                  <td class="col-md-6"><xmp>
+<a href="http://khmelnitsky.all.biz/sporyadzhennya-i-
+furnitura-dlya-saloniv-bgc4377" title=" &#1057;&#1087;&#1086;
+&#1088;&#1103;&#1076;&#1078;&#1077;&#1085;&#1085;&#1103;
+&#1110;&#1092;&#1091;&#1088;&#1085;&#1110;&#1090;&#1091;
+&#1088;&#1072; &#1076;&#1083;&#1103; &#1089;&#1072;&#1083;
+&#1086;&#1085;&#1110;&#1074; &#1072;&#1074;&#1090;&#1086;
+&#1084;&#1086;&#1073;&#1110;&#1083;&#1110;&#1074; &#1074;
+&#1061;&#1084;&#1077;&#1083;&#1100;&#1085;&#1080;&#1094;
+&#1100;&#1082;&#1080;&#1081; ">&#1057;&#1087;&#1086;&#1088;
+&#1103;&#1076;&#1078;&#1077;&#1085;&#1085;&#1103; &#1110;
+&#1092;&#1091;&#1088;&#1085;&#1110;&#1090;&#1091;&#1088;
+&#1072; &#1076;&#1083;&#1103;&#1089;&#1072;&#1083;&#1086;
+&#1085;&#1110;&#1074; &#1072;&#1074;&#1090;&#1086;&#1084;
+&#1086;&#1073;&#1110;&#1083;&#1110;&#1074; &#1074; &#1061;
+&#1084;&#1077;&#1083;&#1100;&#1085;&#1080;&#1094;&#1100;
+&#1082;&#1080;&#1081;</a><span>6</span></xmp></td>
+                </tr>
+                <tr>
+                  <td class="col-md-6"><pre>1,002</pre></td>
+                  <td class="col-md-6"><pre>amet</pre></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>{% endblock %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename = 'js/bootstrap.min.js') }}"></script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+    <script src="{{ url_for('static', filename = 'js/vendor/holder.min.js') }}"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="{{ url_for('static', filename = 'js/ie10-viewport-bug-workaround.js') }}"></script>
+  </body>
+</html>

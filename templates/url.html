@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+
+{% block navigation %}
+<ul class="nav navbar-nav">
+<li><a href="/">Общая статистика</a></li>
+<li class="active"><a href="/urls">Url адреса</a></li>
+<li><a href="/urls">Дублирование</a></li>
+<li><a href="/urls">Новый контент</a></li>
+</ul>
+{% endblock %}
+
+{% block head %}
+<h2><a href="{{ page1.url|safe }}" target="_blank">{{ page1.url|safe }}</a></h2>
+{% endblock %}
+
+{% block content5 %}
+
+    <div class="container">
+        <p> {{ page1.url|safe }} </p><br />
+        <p> {{ page1.title|safe }} </p><br />
+        <p> {{ page1.description|safe }} </p><br />
+        <p> {{ page1.keywords|safe }} </p><br />
+        <p> {{ page1.robots|safe }} </p><br />
+        <p> {{ page1.canonical|safe }} </p><br />
+        <p> {{ page1.h1|safe }} </p><br />
+        <p> {{ page1.h2|safe }} </p><br />
+        <p> {% for h3 in page1.h3 %}{{ h3|safe }}, {% endfor %} </p><br />
+        <div> {{ page1.b_header_top|safe }} </div><br />
+        <p> {{ page1.b_home_content|safe }} </p><br />
+        <p> {{ page1.b_home_footer|safe }} </p><br />
+        <div> {{ page1.b_header|safe }} </div><br />
+        <p> {{ page1.b_footer_inner|safe }} </p><br />
+        <p> {{ page1.b_left|safe }} </p><br />
+        <p> {{ page1.b_descr_blocks|safe }} </p><br />
+        <p> {{ page1.b_descr_text|safe }} </p><br />
+        <p> {{ page1.b_product_switcher|safe }} </p><br />
+        <p> {{ page1.b_header_main_js_header|safe }} </p><br />
+        <p> {{ page1.b_header_add|safe }} </p><br />
+        <p> {{ page1.b_footer_search_also|safe }} </p><br />
+        <p> {{ page1.b_content_to_cat|safe }} </p><br />
+        <p> {{ page1.p_gsarticle_promo_aside|safe }} </p><br />
+        <p> {{ page1.p_gsarticle_promo_footer|safe }} </p><br />
+        <p> {{ page1.b_similar|safe }} </p><br />
+        <p> {{ page1.b_descr_blocks_item|safe }} </p><br />
+        <p> {{ page1.b_markets_left_menu|safe }} </p><br />
+        <p> {{ page1.b_markets_top_categories|safe }} </p><br />
+    </div>
+
+{% endblock %}
+
+
+{% block content %}
+    <div class="row show-grid">
+        <div class="col-xs-6"><h4>Проверка за {{col1}}</h4></div>
+        <div class="col-xs-6"><h4>Проверка за {{col2}}</h4></div>
+    </div>
+
+    <div class="row show-grid">
+        <div class="col-xs-6"><b>robots.txt</b></div>
+        <div class="col-xs-6"><b>robots.txt</b></div>
+        <div class="col-xs-6">{{page1.robots_txt|safe}}</div>
+        <div class="col-xs-6">{{page2.robots_txt|safe}}</div>
+    </div>
+
+    <div class="row show-grid">
+        <div class="col-xs-6"><b>Meta Robots</b></div>
+        <div class="col-xs-6"><b>Meta Robots</b></div>
+        <div class="col-xs-6">{{page1.robots|safe}}</div>
+        <div class="col-xs-6">{{page2.robots|safe}}</div>
+    </div>
+
+    <div class="row show-grid">
+        <div class="col-xs-6"><b>Status Code</b></div>
+        <div class="col-xs-6"><b>Status Code</b></div>
+        <div class="col-xs-6">{{page1.status_code|safe}}</div>
+        <div class="col-xs-6">{{page2.status_code|safe}}</div>
+    </div>
+
+    <div class="row show-grid">
+        <div class="col-xs-6"><b>Load time</b></div>
+        <div class="col-xs-6"><b>Load time</b></div>
+        <div class="col-xs-6">{{page1.load_time|safe}}</div>
+        <div class="col-xs-6">{{page2.load_time|safe}}</div>
+    </div>
+
+    <div class="row show-grid">
+        <div class="col-xs-6"><b>Size</b></div>
+        <div class="col-xs-6"><b>Size</b></div>
+        <div class="col-xs-6">{{page1.size|safe}}</div>
+        <div class="col-xs-6">{{page2.size|safe}}</div>
+    </div>
+
+    <div class="row show-grid">
+        <div class="col-xs-6"><b>Headers</b></div>
+        <div class="col-xs-6"><b>Headers</b></div>
+        <div class="col-xs-6">{{page1.headers|safe}}</div>
+        <div class="col-xs-6">{{page2.headers|safe}}</div>
+    </div>
+
+    <div class="row show-grid">
+        <div class="col-xs-6"><b>Redirects</b></div>
+        <div class="col-xs-6"><b>Redirects</b></div>
+        <div class="col-xs-6">{{page1.redirects|safe}}</div>
+        <div class="col-xs-6">{{page2.redirects|safe}}</div>
+    </div>
+
+    <div class="row show-grid">
+        <div class="col-xs-6"><b>Title</b></div>
+        <div class="col-xs-6"><b>Title</b></div>
+        <div class="col-xs-6">{{page1.title|safe}}</div>
+        <div class="col-xs-6">{{page2.title|safe}}</div>
+    </div>
+
+    <div class="row show-grid">
+        <div class="col-xs-6"><b>Description</b></div>
+        <div class="col-xs-6"><b>Description</b></div>
+        <div class="col-xs-6">{{page1.description|safe}}</div>
+        <div class="col-xs-6">{{page2.description|safe}}</div>
+    </div>
+
+    <div class="row show-grid">
+        <div class="col-xs-6"><b>Keywords</b></div>
+        <div class="col-xs-6"><b>Keywords</b></div>
+        <div class="col-xs-6">{{page1.keywords|safe}}</div>
+        <div class="col-xs-6">{{page2.keywords|safe}}</div>
+    </div>
+
+    <div class="row show-grid">
+        <div class="col-xs-6"><b>H1</b></div>
+        <div class="col-xs-6"><b>H1</b></div>
+        <div class="col-xs-6">{{page1.h1|safe}}</div>
+        <div class="col-xs-6">{{page2.h1|safe}}</div>
+    </div>
+
+    <div class="row show-grid">
+        <div class="col-xs-6"><b>H2</b></div>
+        <div class="col-xs-6"><b>H2</b></div>
+        <div class="col-xs-6">{{page1.h2|safe}}</div>
+        <div class="col-xs-6">{{page2.h2|safe}}</div>
+    </div>
+
+    <div class="row show-grid">
+        <div class="col-xs-6"><b>H3</b></div>
+        <div class="col-xs-6"><b>H3</b></div>
+        <div class="col-xs-6">{{page1.h3|safe}}</div>
+        <div class="col-xs-6">{{page2.h3|safe}}</div>
+    </div>
+
+    <div class="row show-grid">
+        <div class="col-xs-6"><b>SEO Text</b></div>
+        <div class="col-xs-6"><b>SEO Text</b></div>
+        <div class="col-xs-6">{{page1.b_descr_text|safe}}</div>
+        <div class="col-xs-6">{{page2.b_descr_text|safe}}</div>
+    </div>
+
+    <div class="row show-grid">
+        <div class="col-xs-6"><b>Перелинковка городов</b></div>
+        <div class="col-xs-6"><b>Перелинковка городов</b></div>
+        <div class="col-xs-6">{{page1.b_descr_blocks_item|safe}}</div>
+        <div class="col-xs-6">{{page2.b_descr_blocks_item|safe}}</div>
+    </div>
+
+{% endblock %}
