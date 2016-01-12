@@ -98,7 +98,7 @@ def urls():
     elif request.args.get('f') == 'redirects':
         pages = db[col1].find({'redirects': re.compile(r'^301', re.IGNORECASE)})
 
-    return render_template('urls.html', pages=pages)
+    return render_template('urls.html', pages=pages, key=key)
 
 
 @app.route('/urls/<ID>')
