@@ -1,6 +1,5 @@
 # This file will look up the cached versions of the data in DB and return if available.
 # If the data is not available, it will generate it, write to DB and return it to the main process.
-import threading
 import re
 from settings import db
 
@@ -58,13 +57,12 @@ def create_main_cache(col1, col2):
 def get_urls_data(col1, col2, key=None):
     cols = '{}_{}'.format(col1, col2)
     if db.cache.find_one({'cached_urls_{}'.format(key): cols}):
-        cached_result = db.cache.find_one({'cached_urls_{}'.format(key): cols})[cols]
+        return db.cache.find_one({'cached_urls_{}'.format(key): cols})[cols]
     else:
-        cached_result = create_urls_cache(col1, col2, key=key)
-    return cached_result
+        return create_urls_cache(col1, col2, key=key)
 
 
-def create_urls_cache(col1, col2, pages=None, key=None):
+def create_urls_cache(col1, col2, key=None):
 
     parameters = ['status_code', 'robots_txt', 'redirects', 'b_home_footer', 'description',
                   'b_footer_search_also', 'h2', 'h3', 'title', 'canonical', 'robots', 'b_descr_blocks_item',
