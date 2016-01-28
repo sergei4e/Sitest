@@ -54,12 +54,52 @@ def create_main_cache(col1, col2):
     return cached_result
 
 
-def get_urls_data(col1, col2, key=None):
-    cols = '{}_{}'.format(col1, col2)
-    if db.cache.find_one({'cached_urls_{}'.format(key): cols}):
-        return db.cache.find_one({'cached_urls_{}'.format(key): cols})[cols]
+def get_urls_data(col1, col2, key=None, urls=None):
+
+    def check_cache(col1, col2, key):
+        cols = '{}_{}'.format(col1, col2)
+        if db.cache.find_one({'cached_urls_{}'.format(key): cols}):
+            return db.cache.find_one({'cached_urls_{}'.format(key): cols})[cols]
+        else:
+            return create_urls_cache(col1, col2, key)
+
+    if not urls:
+        return check_cache(col1, col2, key)
+
+    # adding URLs filter
+    urls_data = check_cache(col1, col2, key)
+    pages = urls_data['pages']
+
+    filtered_pages = list()
+    if urls == 'bgg':
+        bgg_rx = re.compile(r'.+\-bgg\d+')
+        for page in pages:
+            if re.search(bgg_rx, page['url']):
+                filtered_pages.append(page)
+    elif urls == 'bgc':
+        bgc_rx = re.compile(r'.+\-bgc\d+')
+        for page in pages:
+            if re.search(bgc_rx, page['url']):
+                filtered_pages.append(page)
+    elif urls == 'g':
+        g_rx = re.compile(r'.+\-g\d.+')
+        for page in pages:
+            if re.search(g_rx, page['url']):
+                filtered_pages.append(page)
+    elif urls == 's':
+        s_rx = re.compile(r'.+\-s\d+')
+        for page in pages:
+            if re.search(s_rx, page['url']):
+                filtered_pages.append(page)
+    elif urls == 'bgr':
+        bgr_rx = re.compile(r'.+\-bgr\d+')
+        for page in pages:
+            if re.search(bgr_rx, page['url']):
+                filtered_pages.append(page)
     else:
-        return create_urls_cache(col1, col2, key=key)
+        filtered_pages = pages
+
+    return {'pages': filtered_pages, 'key': key}
 
 
 def create_urls_cache(col1, col2, key=None):
@@ -86,11 +126,8 @@ def create_urls_cache(col1, col2, key=None):
         pages = db[col1].find({'robots': 'noindex, nofollow'})
     elif key == 'redirects':
         pages = db[col1].find({'redirects': re.compile(r'^301', re.IGNORECASE)})
-    elif not key:
-        pages = db[col1].find()
     else:
-        pages = list()
-        key = 'Incorrect key'
+        pages = db[col1].find()
 
     pages_result = list()
     pages_result.extend([{'url': x['url'], 'status_code': x['status_code'], '_id': x['_id']} for x in pages])

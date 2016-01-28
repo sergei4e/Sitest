@@ -52,11 +52,20 @@ def urls():
     col1 = session['col1']
     col2 = session['col2']
     key = request.args.get('f')
+    session['url_types'] = ['All pages', 'bgg', 'bgc', 'g', 's', 'bgr']
 
-    urls_data = get_urls_data(col1, col2, key=key)
+    if not session.get('url_type'):
+        url_type = session['url_type'] = session['url_types'][0]
+    else:
+        url_type = session['url_type']
+
+    if request.method == 'POST':
+        url_type = session['url_type'] = request.form.get('url_type')
+
+    urls_data = get_urls_data(col1, col2, key=key, urls=url_type)
     pages = urls_data['pages']
 
-    return render_template('urls.html', pages=pages, key=key)
+    return render_template('urls.html', pages=pages, url_types=session['url_types'], url_type=url_type, key=key)
 
 
 @app.route('/urls/<ID>')
