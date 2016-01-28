@@ -1,11 +1,11 @@
 # coding: utf-8
-import re
-
 from flask import render_template, request, session
 
 import login
 from settings import *
 from diff import difference
+
+from cache import get_main_data, get_urls_data
 
 
 @app.route('/example')
@@ -33,36 +33,14 @@ def index():
         col1 = session['col1'] = request.form.get('col1')
         col2 = session['col2'] = request.form.get('col2')
 
-    pages1 = db[col1].find()
-    context = dict()
+    if col1 < col2:
+        col1, col2 = col2, col1
 
-    for page1 in pages1:
-        page2 = db[col2].find_one({'url': page1['url']})
+    main_data = get_main_data(col1, col2)
 
-        if page1 and page2:
-
-            for key in page1:
-                if page1.get(key) != page2.get(key):
-                    if context.get(key):
-                        context[key] += 1
-                    else:
-                        context[key] = 1
-
-    regx = re.compile(r'^301', re.IGNORECASE)
-
-    context1 = dict()
-    context1['col1'] = col1
-    context1['errors'] = db[col1].find({'status_code': 404}).count()
-    context1['disalloved'] = db[col1].find({'robots_txt': 'Disallowed'}).count()
-    context1['noindex'] = db[col1].find({'robots': 'noindex, nofollow'}).count()
-    context1['redirects'] = db[col1].find({'redirects': regx}).count()
-
-    context2 = dict()
-    context2['col2'] = col2
-    context2['errors'] = db[col2].find({'status_code': 404}).count()
-    context2['disalloved'] = db[col2].find({'robots_txt': 'Disallowed'}).count()
-    context2['noindex'] = db[col2].find({'robots': 'noindex, nofollow'}).count()
-    context2['redirects'] = db[col2].find({'redirects': regx}).count()
+    context = main_data['context']
+    context1 = main_data['context1']
+    context2 = main_data['context2']
 
     return render_template('index.html', context=context, context1=context1, context2=context2, cols=cols)
 
@@ -70,36 +48,24 @@ def index():
 @app.route('/urls', methods=['GET', 'POST'])
 @login.login_required
 def urls():
-    
-    key = ''
+
     col1 = session['col1']
     col2 = session['col2']
-    pages = db[col1].find()
+    key = request.args.get('f')
+    session['url_types'] = ['All pages', 'bgg', 'bgc', 'g', 's', 'bgr']
 
-    parameters = ['status_code', 'robots_txt', 'redirects', 'b_home_footer', 'description',
-                  'b_footer_search_also', 'h2', 'h3', 'title', 'canonical', 'robots', 'b_descr_blocks_item',
-                  'p_gsarticle_promo_aside', 'b_left', 'headers', 'b_descr_text', 'keywords', 'error', 'h1',
-                  'load_time', 'b_similar', 'size']
+    if not session.get('url_type'):
+        url_type = session['url_type'] = session['url_types'][0]
+    else:
+        url_type = session['url_type']
 
-    if request.args.get('f') in parameters:
-        pages = list()
-        key = request.args.get('f')
-        pages1 = db[col1].find()
-        for page1 in pages1:
-            page2 = db[col2].find_one({'url': page1['url']})
-            if page1 and page2:
-                if page1.get(key) != page2.get(key):
-                    pages.append(page1)
-    elif request.args.get('f') == '404':
-        pages = db[col1].find({'status_code': 404})
-    elif request.args.get('f') == 'rb_txt':
-        pages = db[col1].find({'robots_txt': 'Disallowed'})
-    elif request.args.get('f') == 'rb_meta':
-        pages = db[col1].find({'robots': 'noindex, nofollow'})
-    elif request.args.get('f') == 'redirects':
-        pages = db[col1].find({'redirects': re.compile(r'^301', re.IGNORECASE)})
+    if request.method == 'POST':
+        url_type = session['url_type'] = request.form.get('url_type')
 
-    return render_template('urls.html', pages=pages, key=key)
+    urls_data = get_urls_data(col1, col2, key=key, urls=url_type)
+    pages = urls_data['pages']
+
+    return render_template('urls.html', pages=pages, url_types=session['url_types'], url_type=url_type, key=key)
 
 
 @app.route('/urls/<ID>')

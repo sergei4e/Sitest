@@ -10,17 +10,37 @@
 {% endblock %}
 
 {% block head %}
-    <h2 class="page-header">Список адресов {% if key %}где отличается {{ key }} {% endif %}:</h2>
+    <h2 class="page-header">Список адресов{% if url_type != 'All pages' %} типа {{ url_type }}{% endif %}{% if key %},
+        где отличается {{ key }}{% endif %} ({{ pages|length }}):</h2>
 {% endblock %}
 
 {% block content %}
 
-    <div class="container">
-        <ol>
-            {% for page in pages %}
-            <li> <a href="urls/{{ page._id }}">[ {{ page.status_code }} ] {{ page.url }}</a> </li>
-            {% endfor %}
-        </ol>
+<div class="row show-grid">
+    <div class="col-xs-3">
+        <form method="post">
+            <label for="url_type">Выберите тип URL</label>
+                <select class="form-control" name="url_type" id="url_type">
+                    {% for type in url_types %}
+                        {% if url_type == type %}
+                            <option selected value='{{ type }}'>{{ type }}</option>
+                        {% else %}
+                            <option value='{{ type }}'>{{ type }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            <br />
+            <button type="submit" class="btn btn-default">Получить данные</button>
+        </form>
     </div>
+</div>
+
+<div class="container">
+    <ol>
+        {% for page in pages %}
+        <li> <a href="urls/{{ page._id }}">[ {{ page.status_code }} ] {{ page.url }}</a> </li>
+        {% endfor %}
+    </ol>
+</div>
 
 {% endblock %}
