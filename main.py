@@ -70,7 +70,8 @@ def index():
 @app.route('/urls', methods=['GET', 'POST'])
 @login.login_required
 def urls():
-
+    
+    key = ''
     col1 = session['col1']
     col2 = session['col2']
     pages = db[col1].find()
