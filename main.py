@@ -5,7 +5,7 @@ import login
 from settings import *
 from diff import difference
 
-from cache import get_main_data, get_urls_data
+from cache import get_data
 
 
 @app.route('/example')
@@ -36,7 +36,7 @@ def index():
     if col1 < col2:
         col1, col2 = col2, col1
 
-    main_data = get_main_data(col1, col2)
+    main_data = get_data(col1, col2)
 
     context = main_data['context']
     context1 = main_data['context1']
@@ -58,7 +58,7 @@ def urls():
     if not url_type:
         url_type = session['url_type'] = session['url_types'][0]
 
-    urls_data = get_urls_data(col1, col2, key=key, urls=url_type)
+    urls_data = get_data(col1, col2, key=key, urls=url_type)
     pages = urls_data['pages']
 
     return render_template('urls.html', pages=pages, url_types=session['url_types'], url_type=url_type, key=key)
