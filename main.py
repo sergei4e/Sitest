@@ -33,9 +33,6 @@ def index():
         col1 = session['col1'] = request.form.get('col1')
         col2 = session['col2'] = request.form.get('col2')
 
-    if col1 < col2:
-        col1, col2 = col2, col1
-
     main_data = get_data(col1, col2)
 
     context = main_data['context']
@@ -53,6 +50,8 @@ def urls():
     col2 = session['col2']
     key = request.args.get('f')
     url_type = request.args.get('type')
+
+    # session['url_types'][0] value must always be the default one, meaning no filters enabled
     session['url_types'] = ['All pages', 'bgg', 'bgc', 'g', 's', 'bgr']
 
     if not url_type:
@@ -74,7 +73,6 @@ def one_url(ID):
     page1 = db[col1].find_one({'_id': ObjectId(ID)})
     page2 = db[col2].find_one({'url': page1['url']})
 
-    # '''
     for key in page1:
         if type(page1[key]) is list or type(page2[key]) is list:
             page1[key], page2[key] = u' '.join(page1[key]), u' '.join(page2[key])
@@ -83,7 +81,7 @@ def one_url(ID):
             page1[key], page2[key] = unicode(page1[key]), unicode(page2[key])
 
         if type(page1[key]) is unicode:
-            page1[key], page2[key] = difference(page1[key], page2[key])  # '''
+            page1[key], page2[key] = difference(page1[key], page2[key])
 
     return render_template('url.html', page1=page1, page2=page2, col1=col1, col2=col2)
 

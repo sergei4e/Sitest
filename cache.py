@@ -2,12 +2,20 @@
 # If the data is not available, it will generate it, write to DB and return it to the main process.
 import re
 from settings import db
+from flask import session
 
 
 def get_data(col1, col2, key=None, urls=None):
 
+    if urls == session['url_types'][0]:
+        urls = None
     if not urls and not key:
         return check_cache(col1, col2)
+    else:
+        return filter_pages(col1, col2, key, urls)
+
+
+def filter_pages(col1, col2, key, urls):
 
     main_data = check_cache(col1, col2)
 
@@ -17,10 +25,11 @@ def get_data(col1, col2, key=None, urls=None):
 
     # Keys filter
     if key:
-        filtered_pages = list()
+        urls_pages = list()
         for page in pages:
             if key in page['keys']:
-                filtered_pages.append(page)
+                urls_pages.append(page)
+        filtered_pages = urls_pages
 
     # URLs filter
     if urls:
@@ -60,10 +69,12 @@ def get_data(col1, col2, key=None, urls=None):
 
 
 def check_cache(col1, col2):
+    if col1 < col2:
+        col1, col2 = col2, col1
     cols = '{}_{}'.format(col1, col2)
     data = db.cache.find_one({'cached_data': cols})
     if data:
-        return data[cols]
+        return data
     else:
         return create_cache(col1, col2)
 
@@ -126,10 +137,14 @@ def create_cache(col1, col2):
     context2['noindex'] = db[col2].find({'robots': 'noindex, nofollow'}).count()
     context2['redirects'] = db[col2].find({'redirects': re_redirects}).count()
 
-    cached_result = {'context': context, 'context1': context1, 'context2': context2, 'pages': pages_result}
-
     # write processed result to DB
     cols = '{}_{}'.format(col1, col2)
-    db.cache.insert_one({'cached_data': cols, cols: cached_result})
+    db.cache.insert_one({
+                        'cached_data': cols,
+                        'context': context,
+                        'context1': context1,
+                        'context2': context2,
+                        'pages': pages_result
+                        })
 
-    return cached_result
+    return {'context': context, 'context1': context1, 'context2': context2, 'pages': pages_result}

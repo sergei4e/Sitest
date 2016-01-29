@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block head %}
-    <h2 class="page-header">Список адресов{% if url_type != 'All pages' %} типа {{ url_type }}{% endif %}{% if key %},
+    <h2 class="page-header">Список адресов{% if url_type != url_types[0] %} типа {{ url_type }}{% endif %}{% if key %},
         где отличается {{ key }}{% endif %} ({{ pages|length }}):</h2>
 {% endblock %}
 
