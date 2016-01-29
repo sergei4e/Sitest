@@ -52,15 +52,11 @@ def urls():
     col1 = session['col1']
     col2 = session['col2']
     key = request.args.get('f')
+    url_type = request.args.get('type')
     session['url_types'] = ['All pages', 'bgg', 'bgc', 'g', 's', 'bgr']
 
-    if not session.get('url_type'):
+    if not url_type:
         url_type = session['url_type'] = session['url_types'][0]
-    else:
-        url_type = session['url_type']
-
-    if request.method == 'POST':
-        url_type = session['url_type'] = request.form.get('url_type')
 
     urls_data = get_urls_data(col1, col2, key=key, urls=url_type)
     pages = urls_data['pages']

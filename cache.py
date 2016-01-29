@@ -54,14 +54,15 @@ def create_main_cache(col1, col2):
     return cached_result
 
 
-def get_urls_data(col1, col2, key=None, urls=None):
+def check_cache(col1, col2, key):
+    cols = '{}_{}'.format(col1, col2)
+    if db.cache.find_one({'cached_urls_{}'.format(key): cols}):
+        return db.cache.find_one({'cached_urls_{}'.format(key): cols})[cols]
+    else:
+        return create_urls_cache(col1, col2, key)
 
-    def check_cache(col1, col2, key):
-        cols = '{}_{}'.format(col1, col2)
-        if db.cache.find_one({'cached_urls_{}'.format(key): cols}):
-            return db.cache.find_one({'cached_urls_{}'.format(key): cols})[cols]
-        else:
-            return create_urls_cache(col1, col2, key)
+
+def get_urls_data(col1, col2, key=None, urls=None):
 
     if not urls:
         return check_cache(col1, col2, key)

@@ -16,23 +16,31 @@
 
 {% block content %}
 
-<div class="row show-grid">
-    <div class="col-xs-3">
-        <form method="post">
-            <label for="url_type">Выберите тип URL</label>
-                <select class="form-control" name="url_type" id="url_type">
-                    {% for type in url_types %}
-                        {% if url_type == type %}
-                            <option selected value='{{ type }}'>{{ type }}</option>
-                        {% else %}
-                            <option value='{{ type }}'>{{ type }}</option>
-                        {% endif %}
-                    {% endfor %}
-                </select>
-            <br />
-            <button type="submit" class="btn btn-default">Получить данные</button>
-        </form>
-    </div>
+<div class="container" align="right">
+<div class="btn-group">
+  <button class="btn btn-default dropdown-toggle" type="button"
+          data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    Выберите тип URL
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+      {% for type in url_types %}
+        <li><a href="/urls?type={{ type }}">{{ type }}</a></li>
+      {% endfor %}
+  </ul>
+</div>
+<div class="btn-group">
+  <button class="btn btn-default dropdown-toggle" type="button"
+          data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    Выберите язык
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+      {% for type in url_types %}
+        <li><a href="/urls?type={{ type }}">{{ type }}</a></li>
+      {% endfor %}
+  </ul>
+</div>
 </div>
 
 <div class="container">
