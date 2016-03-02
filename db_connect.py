@@ -10,8 +10,7 @@ class Collection(Base):
     __tablename__ = 'collection'
 
     id = Column(Integer, primary_key=True)
-    start_date = Column(String)
-    end_date = Column(String)
+    date = Column(String)
     items = relationship('CollectionItem', back_populates='collection')
 
     def __repr__(self):
