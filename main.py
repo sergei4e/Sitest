@@ -72,7 +72,7 @@ def one_url(ID):
     page2 = db.query(CollectionItem).filter(CollectionItem.url == page1.url, Collection.date == col2).one()
 
     for key in page1.__dict__:
-        if key == '_sa_instance_state':
+        if key.startswith('_'):
             continue
 
         if isinstance(page1.key, unicode):

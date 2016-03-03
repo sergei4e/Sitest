@@ -99,7 +99,7 @@ def create_cache(col1, col2):
         if page1 and page2:
 
             for key in page1.__dict__:
-                if key == '_sa_instance_state':
+                if key.startswith('_'):
                     continue
                 if getattr(page1, key, None) != getattr(page2, key, None):
                     if getattr(cache, key, None):
