@@ -19,7 +19,7 @@ def get_data(col1, col2, key=None, urls=None):
 def filter_pages(col1, col2, key, urls):
 
     main_data = check_cache(col1, col2)
-    
+
     # Page filters
 
     filtered_pages = main_data.pages

@@ -112,6 +112,34 @@ class Cache(Base):
     def __repr__(self):
         return "<Cache(id={}, dates={}-{}')>".format(self.id, self.start_date, self.end_date)
 
+    def keys(self):
+        return {'b_content_to_cat': self.b_content_to_cat,
+                'b_descr_blocks': self.b_descr_blocks,
+                'b_descr_blocks_item': self.b_descr_blocks_item,
+                'b_descr_text': self.b_descr_text,
+                'b_footer_search_also': self.b_footer_search_also,
+                'b_header_top': self.b_header_top,
+                'b_home_footer': self.b_home_footer,
+                'b_left': self.b_left,
+                'b_similar': self.b_similar,
+                'canonical': self.canonical,
+                'description': self.description,
+                'error': self.error,
+                'h1': self.h1,
+                'h2': self.h2,
+                'h3': self.h3,
+                'headers': self.headers,
+                'keywords': self.keywords,
+                'load_time': self.load_time,
+                'p_gsarticle_promo_aside': self.p_gsarticle_promo_aside,
+                'p_gsarticle_promo_footer': self.p_gsarticle_promo_footer,
+                'redirects': self.redirects,
+                'robots': self.robots,
+                'robots_txt': self.robots_txt,
+                'size': self.size,
+                'status_code': self.status_code,
+                'title': self.title
+        }
 
 class CachePage(Base):
 
@@ -152,16 +180,3 @@ class CachePage(Base):
 
     def __repr__(self):
         return "<CachePage(id={}, parent_id={}', url={})>".format(self.id, self.cache_id, self.url)
-
-
-class User(Base):
-
-    __tablename__ = 'users'
-
-    id = Column(Integer, primary_key=True)
-    email = Column(String)
-    password = Column(String)
-
-    def __repr__(self):
-        return "<User(id={}, email={}')>".format(self.id, self.email)
-

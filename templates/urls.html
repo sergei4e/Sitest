@@ -46,7 +46,7 @@
 <div class="container">
     <ol>
         {% for page in pages %}
-        <li> <a href="urls/{{ page._id }}">[ {{ page.status_code }} ] {{ page.url }}</a> </li>
+        <li> <a href="urls/{{ page.id }}">[ {{ page.status_code }} ] {{ page.url }}</a> </li>
         {% endfor %}
     </ol>
 </div>

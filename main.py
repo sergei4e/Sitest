@@ -6,6 +6,7 @@ from settings import *
 from diff import difference
 
 from cache import get_data
+from db_connect import CollectionItem, Collection
 
 
 @app.route('/example')
@@ -17,7 +18,7 @@ def example():
 @login.login_required
 def index():
 
-    session['cols'] = [x for x in db.collection_names(include_system_collections=False) if x.startswith('20')]
+    session['cols'] = [x.date for x in db.query(Collection).all()]
     session['cols'].sort()
     session['cols'].reverse()
     cols = session['cols']
@@ -34,12 +35,9 @@ def index():
         col2 = session['col2'] = request.form.get('col2')
 
     main_data = get_data(col1, col2)
+    keys = main_data.keys()
 
-    context = main_data['context']
-    context1 = main_data['context1']
-    context2 = main_data['context2']
-
-    return render_template('index.html', context=context, context1=context1, context2=context2, cols=cols)
+    return render_template('index.html', data=main_data, keys=keys)
 
 
 @app.route('/urls', methods=['GET', 'POST'])
@@ -58,7 +56,7 @@ def urls():
         url_type = session['url_type'] = session['url_types'][0]
 
     urls_data = get_data(col1, col2, key=key, urls=url_type)
-    pages = urls_data['pages']
+    pages = urls_data.pages
 
     return render_template('urls.html', pages=pages, url_types=session['url_types'], url_type=url_type, key=key)
 
@@ -70,18 +68,17 @@ def one_url(ID):
     col1 = session['col1']
     col2 = session['col2']
 
-    page1 = db[col1].find_one({'_id': ObjectId(ID)})
-    page2 = db[col2].find_one({'url': page1['url']})
+    page1 = db.query(CollectionItem).filter(CollectionItem.id == ID, Collection.date == col1).one()
+    page2 = db.query(CollectionItem).filter(CollectionItem.url == page1.url, Collection.date == col2).one()
 
-    for key in page1:
-        if type(page1[key]) is list or type(page2[key]) is list:
-            page1[key], page2[key] = u' '.join(page1[key]), u' '.join(page2[key])
+    for key in page1.__dict__:
+        if key == '_sa_instance_state':
+            continue
 
-        if type(page1[key]) is dict or type(page2[key]) is dict:
-            page1[key], page2[key] = unicode(page1[key]), unicode(page2[key])
-
-        if type(page1[key]) is unicode:
-            page1[key], page2[key] = difference(page1[key], page2[key])
+        if isinstance(page1.key, unicode):
+            diff = difference(getattr(page1, key), getattr(page2, key))
+            setattr(page1, key, diff[0])
+            setattr(page2, key, diff[1])
 
     return render_template('url.html', page1=page1, page2=page2, col1=col1, col2=col2)
 
